@@ -1,6 +1,8 @@
 require 'sinatra'
 require 'mysql2'
 
+set :views, Proc.new { File.join(root, "templates") }
+
 get '/' do
   client = Mysql2::Client.new(host: 'localhost', username: 'root', database: 'booklist', encoding: 'utf8')
   # write a procedure using MYSQL.
