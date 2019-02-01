@@ -13,12 +13,21 @@
     <h2>書籍の登録フォーム</h2>
     <form action="/" method="POST">
       <input type="text" name="book_title" placeholder="書籍タイトルを入力" required>
-      <input type="submit" name="submit_add_book" value="登録">
+      <input type="submit" name="submit_adding_book" value="登録">
     </form>
     <h2>登録された書籍一覧</h2>
     <ul>
-      <% @records.each do |record| %>
-        <li><%= ERB::Util.html_escape(record['book_title']) %></li>
+      <% @records.each_with_index do |record, i| %>
+        <li>
+          <form action="/books/<%= record['id'] %>" name="delete_form" method="post">
+            <input type="hidden" name="_method" value="DELETE">
+            <%= ERB::Util.html_escape(record['book_title']) %>
+            <input type="submit" name="submit_deleting_book" value="x">
+            <!-- <a href="javascript:delete_form[<%= i %>].submit()">
+              <%= ERB::Util.html_escape(record['book_title']) %>
+            </a> -->
+          </form>
+        </li>
       <% end %>
     </ul>
   </body>

@@ -1,9 +1,19 @@
 require 'sinatra'
 require 'mysql2'
 
+enable :method_override
 set :views, Proc.new { File.join(root, "templates") }
 p settings.views
 p settings.server
+
+delete '/books/:id' do
+  client = Mysql2::Client.new(host: 'localhost', username: 'root', database: 'booklist', encoding: 'utf8')
+
+  statement = client.prepare('DELETE FROM books WHERE id=?')
+  statement.execute(params[:id])
+
+  redirect "/"
+end
 
 get '/' do
   client = Mysql2::Client.new(host: 'localhost', username: 'root', database: 'booklist', encoding: 'utf8')
