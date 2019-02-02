@@ -15,6 +15,15 @@ delete '/books/:id' do
   redirect "/"
 end
 
+post '/books/:id' do
+  client = Mysql2::Client.new(host: 'localhost', username: 'root', database: 'booklist', encoding: 'utf8')
+
+  statement = client.prepare('UPDATE books SET book_title=? WHERE id=?')
+  statement.execute(params[:books][:title], params[:id])
+
+  redirect "/"
+end
+
 get '/' do
   client = Mysql2::Client.new(host: 'localhost', username: 'root', database: 'booklist', encoding: 'utf8')
   # write a procedure using MYSQL.

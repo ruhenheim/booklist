@@ -9,24 +9,33 @@
     <div style="background-color: skyblue;">
       <p>動作確認用: <%= params %></p>
     </div>
+
     <a href="/"><h1>Booklist</h1></a>
+
     <h2>書籍の登録フォーム</h2>
     <form action="/" method="POST">
       <input type="text" name="book_title" placeholder="書籍タイトルを入力" required>
       <input type="submit" name="submit_adding_book" value="登録">
     </form>
+
     <h2>登録された書籍一覧</h2>
     <ul>
       <% @records.each_with_index do |record, i| %>
         <li>
-          <form action="/books/<%= record['id'] %>" name="delete_form" method="post">
-            <input type="hidden" name="_method" value="DELETE">
-            <%= ERB::Util.html_escape(record['book_title']) %>
-            <input type="submit" name="submit_deleting_book" value="x">
-            <!-- <a href="javascript:delete_form[<%= i %>].submit()">
-              <%= ERB::Util.html_escape(record['book_title']) %>
-            </a> -->
+          <!-- 更新フォーム:ここから -->
+          <form action="/books/<%= record['id'] %>" name="update_form" method="post" style="display: inline;">
+            <input type="text" name="books[title]" value="<%= record['book_title'] %>" style="width: 250px;">
+            <input type="submit" name="submit_updating_book" value="✎">
           </form>
+          <!-- 更新フォーム:ここまで -->
+
+          <!-- 削除フォーム:ここから -->
+          <form action="/books/<%= record['id'] %>" name="delete_form" method="post" style="display: inline;">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" name="submit_deleting_book" value="x">
+            <a href="javascript:delete_form[<%= i %>].submit()" style="display: none;"><%= ERB::Util.html_escape(record['book_title']) %></a>
+          </form>
+          <!-- 削除フォーム:ここまで -->
         </li>
       <% end %>
     </ul>
