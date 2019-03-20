@@ -3,8 +3,9 @@ require 'mysql2'
 
 enable :method_override
 set :views, Proc.new { File.join(root, "templates") }
-p settings.views
-p settings.server
+# p settings.views
+# p settings.server
+# p ENV['APP_ENV']
 
 delete '/books/:id' do
   client = Mysql2::Client.new(host: 'localhost', username: 'root', database: 'booklist', encoding: 'utf8')
