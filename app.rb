@@ -31,7 +31,6 @@ get '/' do
   @records = client.query("SELECT * FROM books ORDER BY created_at DESC")
 
   erb :booklist
-
 end
 
 post '/' do
@@ -42,6 +41,5 @@ post '/' do
   statement = client.prepare('INSERT INTO books (book_title) VALUES(?)')
   statement.execute(book_title)
 
-  @records = client.query("SELECT * FROM books ORDER BY created_at DESC")
-  erb :booklist
+  redirect "/"
 end
